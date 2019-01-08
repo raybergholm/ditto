@@ -11,9 +11,8 @@ def from_json_file(filepath, field_list=None):
             if field_list:
                 filtered = []
                 for entry in data:
-                    filtered_entry = {}
                     filtered_entry = {entry for key, value in data.items() if entry in field_list}
-
+                    filtered.append(filtered_entry)
 
         return data
     except OSError as error:

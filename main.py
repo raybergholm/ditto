@@ -14,16 +14,18 @@ def main():
     input_file_type = check_filetype(args.input_filepath)
 
     if input_file_type == "json":
-        input_data = read_file(args.input_filepath)
-        data = convert_json_to_csv(input_data, delimiter, field_list)
+        # input_data = read_file(args.input_filepath)
+        data = convert_json_to_csv(args.input_filepath, delimiter, field_list)
     elif input_file_type == "csv":
-        input_data = read_file(args.input_filepath, line_delimiter=args.newline)
-        data = convert_csv_to_json(input_data, delimiter, field_list)
+        # input_data = read_file(args.input_filepath, line_delimiter=args.newline)
+        data = convert_csv_to_json(args.input_filepath, delimiter, field_list)
     else:
         print("File extension not supported (check if it was a .json or .csv file)")
         return
 
     data = post_processing(data)
+
+    print(str(data))
 
     save_file(args.output_filepath, data)
     print("File saved to %s" % args.output_filepath)
@@ -37,7 +39,7 @@ def parse_arguments():
     parser.add_argument("input_filepath", help="filepath to the input file")
     parser.add_argument("output_filepath", help="filepath to save the content")
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store", default=";", help="delimiter to use (default is semicolon)")
-    parser.add_argument("-n", "--newline", dest="newline", action="store", help="newline type (default is \"\\n\")"
+    parser.add_argument("-n", "--newline", dest="newline", action="store", help="newline type (default is \"\\n\")")
     parser.add_argument("-f", "--fields", dest="fields", action="store", help="fields to use as an filter (FIELD1;FIELD2;FIELD3)")
     args = parser.parse_args()
     return args

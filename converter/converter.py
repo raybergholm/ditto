@@ -2,49 +2,25 @@
 
 import json
 
-JSON_TYPE = "json"
-CSV_TYPE = "csv"
+from lazeesnake.csv_handler import from_csv_file, to_csv_file, csv_to_json
+from lazeesnake.json_handler import from_json_file, to_json_file, json_to_csv
 
 def check_filetype(filepath):
-    if filepath.endswith(".%s" % JSON_TYPE):
-        return JSON_TYPE
-    elif filepath.endswith(".%s" % CSV_TYPE):
-        return CSV_TYPE
+    JSON_FILE_FORMAT = "json"
+    CSV_FILE_FORMAT = "csv"
+
+    if filepath.endswith(".%s" % JSON_FILE_FORMAT):
+        return JSON_FILE_FORMAT
+    elif filepath.endswith(".%s" % CSV_FILE_FORMAT):
+        return CSV_FILE_FORMAT
     else:
         return ""
 
-def convert_json_to_csv(input_data, delimiter, field_list):
-    json_data = json.loads(input_data)
+def convert_json_to_csv(input_data, delimiter=";", newline="\n", fieldnames=None):
+    data = from_json_file(input_data, fieldnames)
+    csv_data = json_to_csv(data)
 
-    fields = field_list if field_list != None else json_data[0].keys()
-    header = "%s\n" % delimiter.join(fields)
-
-    content = []
-    for entry in json_data:
-        filtered = [str(entry[field]) if field in entry else "" for field in fields]
-        content.append("%s\n" % delimiter.join(filtered))
-
-    output_data = [header]
-
-    for entry in content:
-        output_data.append(entry)
-
-    return output_data
-
-def convert_csv_to_json(input_data, delimiter, field_list):
-
-    content = []
-    for i, line in enumerate(input_data):
-        if i == 0:
-            header = line.split(delimiter)
-        else:
-            content.append(line.split(delimiter))
-
-    output_data = []
-    for line in content:
-        entry = { header[i]: field for i, field in enumerate(line) }
-        output_data.append(entry)
-
-    output_data = json.dumps(output_data)
-
-    return output_data
+def convert_csv_to_json(input_data, delimiter=";", newline="\n", fieldnames=None):
+    (header, data) = from_csv_file(input_data, delimiter, newline)
+    json_data = csv_to_json(header, data)
+    return json.dumps(json_data)

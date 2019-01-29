@@ -25,8 +25,6 @@ def main():
 
     data = post_processing(data)
 
-    print(str(data))
-
     save_file(args.output_filepath, data)
     print("File saved to %s" % args.output_filepath)
 

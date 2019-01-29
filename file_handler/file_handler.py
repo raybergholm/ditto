@@ -15,7 +15,7 @@ def save_file(filepath, data):
         with open(filepath, "w+") as file_stream:
             try:
                 for entry in data:
-                    file_stream.write(entry)
+                    file_stream.write(str(entry))
             except TypeError:
                 file_stream.write(entry)
     except OSError as error:

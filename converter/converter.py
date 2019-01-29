@@ -16,11 +16,12 @@ def check_filetype(filepath):
     else:
         return ""
 
-def convert_json_to_csv(input_data, delimiter=";", newline="\n", fieldnames=None):
-    data = from_json_file(input_data, fieldnames)
+def convert_json_to_csv(filepath, delimiter=";", newline="\n", fieldnames=None):
+    data = from_json_file(filepath, fieldnames)
     csv_data = json_to_csv(data)
+    return csv_data
 
-def convert_csv_to_json(input_data, delimiter=";", newline="\n", fieldnames=None):
-    (header, data) = from_csv_file(input_data, delimiter, newline)
+def convert_csv_to_json(filepath, delimiter=";", newline="\n", fieldnames=None):
+    (header, data) = from_csv_file(filepath, delimiter, newline)
     json_data = csv_to_json(header, data)
     return json.dumps(json_data)

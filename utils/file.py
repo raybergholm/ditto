@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+
 def read_file(filepath, line_delimiter=None):
     try:
         with open(filepath, "r") as file_stream:
@@ -9,6 +10,7 @@ def read_file(filepath, line_delimiter=None):
         return data
     except OSError as error:
         print(str(error))
+
 
 def save_file(filepath, data):
     try:

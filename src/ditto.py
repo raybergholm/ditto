@@ -47,10 +47,10 @@ def convert_csv_to_json(filepath, delimiter=";", newline="\n", fieldnames=None):
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Ditto: a tiny JSON/CSV converter")
+        description="Ditto: a tiny standalone JSON/CSV converter")
     parser.add_argument("input_filepath", help="filepath to the input file")
     parser.add_argument("-o", "--out", dest="output_filepath", action="store",
-                        help="filepath to save the content (default is to use the same name as the input)")
+                        help="filepath to save the content (default is to use the same path and name as the input)")
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
                         default=";", help="delimiter to use (default: semicolon)")
     parser.add_argument("-n", "--newline", dest="newline", action="store",

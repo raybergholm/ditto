@@ -29,7 +29,7 @@ def convert_and_save():
         args.input_filepath.split(".")[0], output_filetype)
 
     save_file(output_filepath, data)
-    print("File saved to %s" % args.output_filepath)
+    print("File saved to %s" % output_filepath)
 
 
 def convert():

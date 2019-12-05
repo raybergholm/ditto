@@ -23,7 +23,7 @@ Using comma delimiters:
 ### How to set up the quick shell function shortcut
 
 1. In shell-snippets/ditto-shell.sh, change the value of `DITTO_PATH` to the root folder where this repo was copied.
-2. Include the ditto-shell.sh in your `.bash_profile`, `.zshrc` or other equivalent file, e.g. `source ~/path-to-this-repo/shell-snipppets/ditto-shell.sh`
+2. Include the ditto-shell.sh in your `.bash_profile`, `.zshrc` or other equivalent file, e.g. `source ~/path-to-this-repo/shell-snippets/ditto-shell.sh`
 
 ### Arguments list
 

@@ -14,7 +14,7 @@ def convert_and_save():
 
     if input_filetype == "json":
         data = convert_json_to_csv(args.input_filepath, delimiter=args.delimiter,
-                                   newline=args.newline, field_list=args.field_list)
+                                   newline=args.newline, field_list=args.field_list, forced_json_fields=args.forced_json_fields)
     elif input_filetype == "csv":
         data = convert_csv_to_json(args.input_filepath, delimiter=args.delimiter,
                                    newline=args.newline, field_list=args.field_list)
@@ -30,8 +30,8 @@ def convert_and_save():
     print("File saved to %s" % output_filepath)
 
 
-def convert_json_to_csv(filepath, delimiter=";", newline="\n", field_list=None):
-    data = from_json_file(filepath, field_list)
+def convert_json_to_csv(filepath, delimiter=";", newline="\n", field_list=None, forced_json_fields=None):
+    data = from_json_file(filepath, field_list, forced_json_fields)
     return json_to_csv(data)
 
 
@@ -50,6 +50,8 @@ def parse_arguments():
                         default=";", help="delimiter to use (default: semicolon)")
     parser.add_argument("-n", "--newline", dest="newline", action="store",
                         default="\n", help="newline type (default: \"\\n\")")
+    parser.add_argument("--force-json-fields", dest="forced_json_fields",
+                        action="store", default=None, help="on JSON->CSV conversion, always include these fields (use comma delimited lists)")
     parser.add_argument("-f", "--fields", dest="field_list", action="store",
                         default=None, help="fields to use as an filter (FIELD1;FIELD2;FIELD3)")
     args = parser.parse_args()

@@ -19,27 +19,8 @@ def check_filetype(filepath):
 # supply a field list to filter the JSON data, otherwise it will return the whole body as-is
 def from_json_file(filepath, filter=None, forced_json_fields=None):
     data = None
-
-    filter_fields = filter.split(";") if not filter == None else None
-    forced_fields = forced_json_fields.split(
-        ";") if not forced_json_fields == None else None
-
     with open(filepath, newline="") as file_stream:
         data = json.loads(file_stream.read())
-
-        if forced_fields:
-            for entry in data:
-                for field in forced_fields:
-                    if field not in entry:
-                        entry[field] = ""
-
-        if filter_fields:
-            filtered = []
-            for entry in data:
-                filtered_entry = {key: value for key,
-                                  value in entry.items() if key in filter_fields}
-                filtered.append(filtered_entry)
-            data = filtered
     return data
 
 
@@ -68,10 +49,9 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True, retu
         return (header, data)
 
 
-def json_to_csv(data, field_list=None, delimiter=";", expand=False):
+def json_to_csv(data, delimiter=";", expand=False):
     # if no field_list is supplied, it will build it from the first item in the list. Doing it this way means that the key order will vary!
-    header = [key for key in data[0].keys(
-    )] if field_list == None else field_list
+    header = [key for key in data[0].keys()]
 
     csv_data = []
     csv_data.append("%s\n" % delimiter.join(header))

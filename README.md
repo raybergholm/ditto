@@ -32,7 +32,9 @@ Using comma delimiters:
 | --- | --- | --- | --- | --- |
 | {0} |  | Source filepath | N/A | Filepath of the file to be converted |
 | --output | -o | Destination filepath | Same as source filepath | Filepath where the result will be saved |
+| --include | -i | Include fields | "" | Always include these fields (populate as empty values if they don't exist in the source). Use the format FIELD1,FIELD2,FIELD3 |
+| --exclude | -e | Exclude fields | "" | Always exclude these fields (remove these fields if they exist in the source). Use the format FIELD1,FIELD2,FIELD3 |
+| --only | -i | Only fields | "" | Copy only these fields (only these fields will appear in the output file). Use the format FIELD1,FIELD2,FIELD3 |
 | --delimiter | -d | CSV delimiter | ';' | CSV delimiter to be used when parsing/building the CSV file |
 | --newline | -n | Newline | '\n' | Newline used when parsing/building the CSV file |
-| --filter | -f | Filter | " | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). Filter the output to only the fields in this list |
-| --force-output-fields | N/A | Forced fields | "" | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). Use this argument to always include the fields specified hereeven if it's not found in the template (the first entry) |
+

@@ -5,12 +5,12 @@ import csv
 
 
 def check_filetype(filepath):
-    JSON_FILE_FORMAT = ".json"
-    CSV_FILE_FORMAT = ".csv"
+    JSON_FILE_FORMAT = "json"
+    CSV_FILE_FORMAT = "csv"
 
-    if filepath.endswith(JSON_FILE_FORMAT):
+    if filepath.endswith(".{0}".format(JSON_FILE_FORMAT)):
         return JSON_FILE_FORMAT
-    elif filepath.endswith(CSV_FILE_FORMAT):
+    elif filepath.endswith(".{0}".format(CSV_FILE_FORMAT)):
         return CSV_FILE_FORMAT
     else:
         return ""
@@ -24,7 +24,7 @@ def from_json_file(filepath, filter=None, forced_json_fields=None):
     return data
 
 
-def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True, return_dict=False):
+def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
     header = None
     data = []
     with open(filepath, mode="r", newline="") as file_stream:
@@ -39,14 +39,11 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True, retu
         else:
             data = [row for row in reader]
 
-    if return_dict:
-        output = []
-        for line in data:
-            output.append(
-                {header[index]: field for index, field in enumerate(line)})
-        return output
-    else:
-        return (header, data)
+    output = []
+    for line in data:
+        output.append(
+            {header[index]: field for index, field in enumerate(line)})
+    return output
 
 
 def json_to_csv(data, delimiter=";", expand=False):
@@ -67,3 +64,6 @@ def csv_to_json(header, data):
         entry = {field: line[index] for index, field in enumerate(header)}
         json_data.append(entry)
     return json.dumps(json_data)
+
+def to_json(data):
+    return json.dumps(data)

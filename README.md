@@ -13,6 +13,7 @@ Getting help:
 
 Basic:
 `python ditto.py {SOURCE_FILEPATH}`
+The output filepth will be the same as source filepath, with .csv/.json swapped
 
 Specify the destination:
 `python ditto.py {SOURCE_FILEPATH} -o {DESTINATION_FILEPATH}`
@@ -33,4 +34,5 @@ Using comma delimiters:
 | --output | -o | Destination filepath | Same as source filepath | Filepath where the result will be saved |
 | --delimiter | -d | CSV delimiter | ';' | CSV delimiter to be used when parsing/building the CSV file |
 | --newline | -n | Newline | '\n' | Newline used when parsing/building the CSV file |
-| --fields | -f | Field list | None | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). If set to None, use all fields. For JSON -> CSV the first entry is used as a template; if the first entry is not indicative of the desired data structure then specify the field list |
+| --filter | -f | Filter | " | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). Filter the output to only the fields in this list |
+| --force-output-fields | N/A | Forced fields | "" | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). Use this argument to always include the fields specified hereeven if it's not found in the template (the first entry) |

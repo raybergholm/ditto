@@ -8,31 +8,23 @@ def check_filetype(filepath):
     JSON_FILE_FORMAT = "json"
     CSV_FILE_FORMAT = "csv"
 
-    if filepath.endswith(".%s" % JSON_FILE_FORMAT):
+    if filepath.endswith(".{0}".format(JSON_FILE_FORMAT)):
         return JSON_FILE_FORMAT
-    elif filepath.endswith(".%s" % CSV_FILE_FORMAT):
+    elif filepath.endswith(".{0}".format(CSV_FILE_FORMAT)):
         return CSV_FILE_FORMAT
     else:
         return ""
 
 
 # supply a field list to filter the JSON data, otherwise it will return the whole body as-is
-def from_json_file(filepath, field_list=None):
+def from_json_file(filepath, filter=None, forced_json_fields=None):
     data = None
     with open(filepath, newline="") as file_stream:
         data = json.loads(file_stream.read())
-
-        if field_list:
-            filtered = []
-            for entry in data:
-                filtered_entry = {entry for key,
-                                  value in data.items() if entry in field_list}
-                filtered.append(filtered_entry)
-
     return data
 
 
-def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True, return_dict=False):
+def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
     header = None
     data = []
     with open(filepath, mode="r", newline="") as file_stream:
@@ -47,20 +39,16 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True, retu
         else:
             data = [row for row in reader]
 
-    if return_dict:
-        output = []
-        for line in data:
-            output.append(
-                {header[index]: field for index, field in enumerate(line)})
-        return output
-    else:
-        return (header, data)
+    output = []
+    for line in data:
+        output.append(
+            {header[index]: field for index, field in enumerate(line)})
+    return output
 
 
-def json_to_csv(data, field_list=None, delimiter=";", expand=False):
+def json_to_csv(data, delimiter=";", expand=False):
     # if no field_list is supplied, it will build it from the first item in the list. Doing it this way means that the key order will vary!
-    header = [key for key in data[0].keys(
-    )] if field_list == None else field_list
+    header = [key for key in data[0].keys()]
 
     csv_data = []
     csv_data.append("%s\n" % delimiter.join(header))
@@ -76,3 +64,6 @@ def csv_to_json(header, data):
         entry = {field: line[index] for index, field in enumerate(header)}
         json_data.append(entry)
     return json.dumps(json_data)
+
+def to_json(data):
+    return json.dumps(data)

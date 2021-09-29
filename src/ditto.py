@@ -50,10 +50,11 @@ def parse_arguments():
                         default=";", help="delimiter to use (default: semicolon)")
     parser.add_argument("-n", "--newline", dest="newline", action="store",
                         default="\n", help="newline type (default: \"\\n\")")
-    parser.add_argument("--force-json-fields", dest="forced_json_fields",
-                        action="store", default=None, help="on JSON->CSV conversion, always include these fields (use comma delimited lists)")
     parser.add_argument("-f", "--fields", dest="field_list", action="store",
                         default=None, help="fields to use as an filter (FIELD1;FIELD2;FIELD3)")
+    parser.add_argument("--force-json-fields", dest="forced_json_fields",
+                        action="store", default=None, help="on JSON->CSV conversion, always include these fields (use comma delimited lists)")
+    
     args = parser.parse_args()
     return args
 

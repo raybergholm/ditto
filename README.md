@@ -35,3 +35,4 @@ Using comma delimiters:
 | --delimiter | -d | CSV delimiter | ';' | CSV delimiter to be used when parsing/building the CSV file |
 | --newline | -n | Newline | '\n' | Newline used when parsing/building the CSV file |
 | --fields | -f | Field list | None | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). If set to None, use all fields. For JSON -> CSV the first entry is used as a template; if the first entry is not indicative of the desired data structure then specify the field list |
+| --force-json-fields | N/A | Forced fields | None | Specified field list in semicolon delimited format (i.e. FIELD1;FIELD2;FIELD3). This argument is ignored if set to None. When converting JSON -> CSV, always include these fields even if it's not found in the template (the first entry). This is an alternative to using --fields which requires you to specify every single field. |

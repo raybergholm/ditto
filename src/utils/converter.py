@@ -5,12 +5,12 @@ import csv
 
 
 def check_filetype(filepath):
-    JSON_FILE_FORMAT = "json"
-    CSV_FILE_FORMAT = "csv"
+    JSON_FILE_FORMAT = ".json"
+    CSV_FILE_FORMAT = ".csv"
 
-    if filepath.endswith(".%s" % JSON_FILE_FORMAT):
+    if filepath.endswith(JSON_FILE_FORMAT):
         return JSON_FILE_FORMAT
-    elif filepath.endswith(".%s" % CSV_FILE_FORMAT):
+    elif filepath.endswith(CSV_FILE_FORMAT):
         return CSV_FILE_FORMAT
     else:
         return ""

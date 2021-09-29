@@ -13,6 +13,7 @@ Getting help:
 
 Basic:
 `python ditto.py {SOURCE_FILEPATH}`
+The output filepth will be the same as source filepath, with .csv/.json swapped
 
 Specify the destination:
 `python ditto.py {SOURCE_FILEPATH} -o {DESTINATION_FILEPATH}`

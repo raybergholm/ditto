@@ -17,11 +17,12 @@ def check_filetype(filepath):
 
 
 # supply a field list to filter the JSON data, otherwise it will return the whole body as-is
-def from_json_file(filepath, field_list=None, forced_json_fields=None):
+def from_json_file(filepath, filter=None, forced_json_fields=None):
     data = None
 
-    filter_fields = field_list.split(";") if not field_list == None else None
-    forced_fields = forced_json_fields.split(";") if not forced_json_fields == None else None        
+    filter_fields = filter.split(";") if not filter == None else None
+    forced_fields = forced_json_fields.split(
+        ";") if not forced_json_fields == None else None
 
     with open(filepath, newline="") as file_stream:
         data = json.loads(file_stream.read())
@@ -35,10 +36,10 @@ def from_json_file(filepath, field_list=None, forced_json_fields=None):
         if filter_fields:
             filtered = []
             for entry in data:
-                filtered_entry = {entry for key,
-                                  value in data.items() if entry in field_list}
+                filtered_entry = {key: value for key,
+                                  value in entry.items() if key in filter_fields}
                 filtered.append(filtered_entry)
-
+            data = filtered
     return data
 
 

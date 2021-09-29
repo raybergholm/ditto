@@ -14,10 +14,10 @@ def convert_and_save():
 
     if input_filetype == "json":
         data = convert_json_to_csv(args.input_filepath, delimiter=args.delimiter,
-                                   newline=args.newline, field_list=args.field_list, forced_json_fields=args.forced_json_fields)
+                                   newline=args.newline, filter=args.filter, forced_json_fields=args.forced_json_fields)
     elif input_filetype == "csv":
         data = convert_csv_to_json(args.input_filepath, delimiter=args.delimiter,
-                                   newline=args.newline, field_list=args.field_list)
+                                   newline=args.newline)
     else:
         print("File extension not supported (check if it was a .json or .csv file)")
         return
@@ -30,12 +30,12 @@ def convert_and_save():
     print("File saved to %s" % output_filepath)
 
 
-def convert_json_to_csv(filepath, delimiter=";", newline="\n", field_list=None, forced_json_fields=None):
-    data = from_json_file(filepath, field_list, forced_json_fields)
+def convert_json_to_csv(filepath, delimiter=";", newline="\n", filter=None, forced_json_fields=None):
+    data = from_json_file(filepath, filter, forced_json_fields)
     return json_to_csv(data)
 
 
-def convert_csv_to_json(filepath, delimiter=";", newline="\n", field_list=None):
+def convert_csv_to_json(filepath, delimiter=";", newline="\n"):
     (header, data) = from_csv_file(filepath, delimiter, newline)
     return csv_to_json(header, data)
 
@@ -47,14 +47,14 @@ def parse_arguments():
     parser.add_argument("-o", "--out", dest="output_filepath", action="store",
                         help="filepath to save the content (default is to use the same path and name as the input)")
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
-                        default=";", help="delimiter to use (default: semicolon)")
+                        default=";", help="CSV delimiter to use when reading (default: semicolon)")
     parser.add_argument("-n", "--newline", dest="newline", action="store",
                         default="\n", help="newline type (default: \"\\n\")")
-    parser.add_argument("-f", "--fields", dest="field_list", action="store",
-                        default=None, help="fields to use as an filter (FIELD1;FIELD2;FIELD3)")
+    parser.add_argument("-f", "--filter", dest="filter", action="store",
+                        default=None, help="fields to use as an filter in FIELD1;FIELD2;FIELD3 format. Only these fields will appear in the output file")
     parser.add_argument("--force-json-fields", dest="forced_json_fields",
                         action="store", default=None, help="on JSON->CSV conversion, always include these fields (use comma delimited lists)")
-    
+
     args = parser.parse_args()
     return args
 

@@ -20,19 +20,19 @@ def check_filetype(filepath):
 def from_json_file(filepath, field_list=None, forced_json_fields=None):
     data = None
 
-    if not forced_json_fields == None:
-        forced_fields = forced_json_fields.split(",")
+    filter_fields = field_list.split(";") if not field_list == None else None
+    forced_fields = forced_json_fields.split(";") if not forced_json_fields == None else None        
 
     with open(filepath, newline="") as file_stream:
         data = json.loads(file_stream.read())
 
-        if not forced_json_fields == None:
+        if forced_fields:
             for entry in data:
                 for field in forced_fields:
                     if field not in entry:
                         entry[field] = ""
 
-        if field_list:
+        if filter_fields:
             filtered = []
             for entry in data:
                 filtered_entry = {entry for key,

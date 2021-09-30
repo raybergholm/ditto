@@ -68,7 +68,6 @@ def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_string=""
         filter_list = filter_string.split(ARG_DELIMITER)
         data = filter_fields(data, filter_list)
 
-    # print(data)
     return to_json(data)
 
 

@@ -50,7 +50,7 @@ def convert_json_to_csv(filepath, delimiter=";", newline="\n", include_list=[], 
     return json_to_csv(data)
 
 
-def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_list=[], exclude_list=[], filter_fields=[]):
+def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_list=[], exclude_list=[], filter_list=[]):
     data = from_csv_file(filepath, delimiter, newline)
 
     if len(include_list) > 0:
@@ -59,8 +59,8 @@ def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_list=[], 
     if len(exclude_list) > 0:
         data = exclude_fields(data, exclude_list)
 
-    if len(filter_fields) > 0:
-        data = filter_fields(data, filter_fields)
+    if len(filter_list) > 0:
+        data = filter_fields(data, filter_list)
 
     return to_json(data)
 

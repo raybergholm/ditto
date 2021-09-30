@@ -54,3 +54,7 @@ If your data source is unnecessarily verbose for your purpose, use the --exclude
 Fields defined in the --only argument will be the only fields in the output.
 
 Just like the exclude case, if your data source is unnecessarily verbose for your purpose you may want to remove some fields. There may be some more extreme cases like getting a raw dump of a 20 column table filled with stuff you have no clue about when you only need two fields. In this scenario you can use the --only argument to strip out everything else.
+
+## Roadmap
+
+[Roadmap here](./Roadmap.md)

@@ -2,8 +2,8 @@
 
 import argparse
 
-from utils.converter import check_filetype, from_json_file, from_csv_file, to_json, to_csv
-from utils.file import read_file, save_file
+from utils.converter import from_json_file, from_csv_file, to_json, to_csv
+from utils.file import check_filetype, read_file, save_file
 
 ARG_DELIMITER = ","
 

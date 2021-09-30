@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 
+def check_filetype(filepath):
+    JSON_FILE_FORMAT = "json"
+    CSV_FILE_FORMAT = "csv"
+
+    if filepath.endswith(".{0}".format(JSON_FILE_FORMAT)):
+        return JSON_FILE_FORMAT
+    elif filepath.endswith(".{0}".format(CSV_FILE_FORMAT)):
+        return CSV_FILE_FORMAT
+    else:
+        return ""
+
 
 def read_file(filepath, line_delimiter="\n", do_for_each_line=None, do_after_file_read=None):
     with open(filepath, "r") as file_stream:

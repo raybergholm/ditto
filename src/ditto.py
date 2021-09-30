@@ -19,10 +19,10 @@ def convert_and_save():
 
     if input_filetype == "json":
         data = convert_json_to_csv(args.input_filepath, delimiter=args.delimiter,
-                                   newline=args.newline, include_list=args.include.split(ARG_DELIMITER), exclude_list=args.exclude.split(ARG_DELIMITER), filter_list=args.only.split(ARG_DELIMITER))
+                                   newline=args.newline, include_string=args.include, exclude_string=args.exclude, filter_string=args.only)
     elif input_filetype == "csv":
         data = convert_csv_to_json(args.input_filepath, delimiter=args.delimiter,
-                                   newline=args.newline, include_list=args.include.split(ARG_DELIMITER), exclude_list=args.exclude.split(ARG_DELIMITER), filter_list=args.only.split(ARG_DELIMITER))
+                                   newline=args.newline, include_string=args.include, exclude_string=args.exclude, filter_string=args.only)
     else:
         print("File extension not supported (check if it was a .json or .csv file)")
         return
@@ -35,32 +35,38 @@ def convert_and_save():
     print("File saved to %s" % output_filepath)
 
 
-def convert_json_to_csv(filepath, delimiter=";", newline="\n", include_list=[], exclude_list=[], filter_list=[]):
+def convert_json_to_csv(filepath, delimiter=";", newline="\n", include_string="", exclude_string="", filter_string=""):
     data = from_json_file(filepath)
 
-    if len(include_list) > 0:
+    if len(include_string) > 0:
+        include_list = include_string.split(ARG_DELIMITER)
         data = include_fields(data, include_list)
 
-    if len(exclude_list) > 0:
+    if len(exclude_string) > 0:
+        exclude_list = exclude_string.split(ARG_DELIMITER)
         data = exclude_fields(data, exclude_list)
 
-    if len(filter_list) > 0:
+    if len(filter_string) > 0:
+        filter_list = filter_string.split(ARG_DELIMITER)
         data = filter_fields(data, filter_list)
 
     return json_to_csv(data)
 
 
-def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_list=[], exclude_list=[], filter_fields=[]):
+def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_string="", exclude_string="", filter_string=""):
     data = from_csv_file(filepath, delimiter, newline)
 
-    if len(include_list) > 0:
+    if len(include_string) > 0:
+        include_list = include_string.split(ARG_DELIMITER)
         data = include_fields(data, include_list)
 
-    if len(exclude_list) > 0:
+    if len(exclude_string) > 0:
+        exclude_list = exclude_string.split(ARG_DELIMITER)
         data = exclude_fields(data, exclude_list)
 
-    if len(filter_fields) > 0:
-        data = filter_fields(data, filter_fields)
+    if len(filter_string) > 0:
+        filter_list = filter_string.split(ARG_DELIMITER)
+        data = filter_fields(data, filter_list)
 
     return to_json(data)
 

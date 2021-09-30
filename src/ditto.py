@@ -2,7 +2,7 @@
 
 import argparse
 
-from utils.converter import check_filetype, from_json_file, from_csv_file, json_to_csv, to_json
+from utils.converter import check_filetype, from_json_file, from_csv_file, to_json, to_csv
 from utils.file import read_file, save_file
 
 ARG_DELIMITER = ","
@@ -50,7 +50,7 @@ def convert_json_to_csv(filepath, delimiter=";", newline="\n", include_string=""
         filter_list = filter_string.split(ARG_DELIMITER)
         data = filter_fields(data, filter_list)
 
-    return json_to_csv(data)
+    return to_csv(data, delimiter, newline)
 
 
 def convert_csv_to_json(filepath, delimiter=";", newline="\n", include_string="", exclude_string="", filter_string=""):

@@ -45,25 +45,16 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
             {header[index]: field for index, field in enumerate(line)})
     return output
 
-
-def json_to_csv(data, delimiter=";", expand=False):
-    # if no field_list is supplied, it will build it from the first item in the list. Doing it this way means that the key order will vary!
-    header = [key for key in data[0].keys()]
-
-    csv_data = []
-    csv_data.append("%s\n" % delimiter.join(header))
-    for line in data:
-        entry = [str(line[field]) if field in line else "" for field in header]
-        csv_data.append("%s\n" % delimiter.join(entry))
-    return csv_data
-
-
-def csv_to_json(header, data):
-    json_data = []
-    for line in data:
-        entry = {field: line[index] for index, field in enumerate(header)}
-        json_data.append(entry)
-    return json.dumps(json_data)
-
 def to_json(data):
     return json.dumps(data)
+
+def to_csv(data, delimiter, newline):
+    header = [key for key in data[0].keys()]
+    output_data = []
+    
+    output_data.append("{0}{1}".format(delimiter.join(header), newline))
+    for row in data:
+        # This kind of looks superfluous when filtering happens before this step, but this is actually more about enforcing a set field order if you get objects with different key ordering
+        entry = [str(row[field]) if field in row else "" for field in header]
+        output_data.append("{0}{1}".format(delimiter.join(entry), newline))
+    return output_data

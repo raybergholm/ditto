@@ -14,14 +14,14 @@ DEFAULT_CSV_NEW_LINE = "\n"
 def convert_and_save():
     args = parse_arguments()
 
-    input_filetype = check_filetype(args.input_filepath)
+    input_filetype = check_filetype(args.data_source_path)
     output_filetype = "json" if input_filetype == "csv" else "csv"
 
     if input_filetype == "json":
-        data = convert_json_to_csv(args.input_filepath, delimiter=args.delimiter,
+        data = convert_json_to_csv(args.data_source_path, delimiter=args.delimiter,
                                    newline=args.newline, include_string=args.include, exclude_string=args.exclude, filter_string=args.only)
     elif input_filetype == "csv":
-        data = convert_csv_to_json(args.input_filepath, delimiter=args.delimiter,
+        data = convert_csv_to_json(args.data_source_path, delimiter=args.delimiter,
                                    newline=args.newline, include_string=args.include, exclude_string=args.exclude, filter_string=args.only)
     else:
         print("File extension not supported (check if it was a .json or .csv file)")
@@ -29,7 +29,7 @@ def convert_and_save():
 
     # If no output filepath was supplied, use the same filepath as the input and just switch the filetype
     output_filepath = args.output_filepath if args.output_filepath else "{0}.{1}".format(
-        args.input_filepath.split(".")[0], output_filetype)
+        args.data_source_path.split(".")[0], output_filetype)
 
     save_file(output_filepath, data)
     print("File saved to %s" % output_filepath)
@@ -100,7 +100,7 @@ def filter_fields(data, field_list):
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="Ditto: a tiny standalone JSON/CSV converter")
-    parser.add_argument("input_filepath", help="filepath to the input file")
+    parser.add_argument("data_source_path", help="Path to the data source. Web sources start with http:// or https://, otherwise this script will try to fetch from a local file")
     parser.add_argument("-f", "--filepath", dest="output_filepath", action="store",
                         help="filepath to save the content (default is to use the same path and name as the input)")
 

@@ -35,6 +35,14 @@ def convert_and_save():
     print("File saved to %s" % output_filepath)
 
 
+def fetch_from_web(url):
+    pass
+
+
+def fetch_from_file(filepath):
+    pass
+
+
 def convert_json_to_csv(filepath, delimiter=";", newline="\n", include_string="", exclude_string="", filter_string=""):
     data = from_json_file(filepath)
 

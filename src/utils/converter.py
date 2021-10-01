@@ -4,7 +4,7 @@ import json
 import csv
 
 # supply a field list to filter the JSON data, otherwise it will return the whole body as-is
-def from_json_file(filepath, filter=None, forced_json_fields=None):
+def from_json_file(filepath):
     data = None
     with open(filepath, newline="") as file_stream:
         data = json.loads(file_stream.read())

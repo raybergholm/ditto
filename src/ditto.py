@@ -82,10 +82,13 @@ def main():
 
 def fetch_from_web(url):
     # TODO: this function
+    print("Fetching from URL {0}".format(url))
+
     return [{"example": "example"}]
 
 
 def fetch_from_file(filepath):
+    print("Fetching from filepath {0}".format(filepath))
     return read_file(filepath)
 
 

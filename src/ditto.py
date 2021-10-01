@@ -11,6 +11,7 @@ DEFAULT_CSV_DELIMITER = ";"
 DEFAULT_CSV_NEW_LINE = "\n"
 DEFAULT_CSV_QUOTECHAR = "\""
 
+
 def main():
     args = parse_arguments()
 
@@ -38,7 +39,7 @@ def main():
             args.data_source_path.split(".")[0], output_datatype)
 
         source_data = fetch_from_file(data_source_path)
-    
+
     if not source_data:
         print("No data received after fetching from source")
         return

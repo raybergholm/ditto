@@ -40,7 +40,7 @@ def main():
         source_data = fetch_from_file(data_source_path)
     
     if not source_data:
-        print("failed to get data")
+        print("No data received after fetching from source")
         return
 
     data = None

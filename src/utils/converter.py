@@ -5,44 +5,17 @@ import csv
 
 from io import StringIO
 
-# supply a field list to filter the JSON data, otherwise it will return the whole body as-is
-def from_json_file(filepath):
-    data = None
-    with open(filepath, newline="") as file_stream:
-        data = json.loads(file_stream.read())
-    return data
-
-
-def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
-    header = None
-    data = []
-    with open(filepath, mode="r", newline="") as file_stream:
-        reader = csv.reader(
-            file_stream, delimiter=delimiter, quotechar=quotechar)
-        if has_header:
-            for index, row in enumerate(reader):
-                if index == 0:
-                    header = row
-                else:
-                    data.append(row)
-        else:
-            data = [row for row in reader]
-
-    output = []
-    for line in data:
-        output.append(
-            {header[index]: field for index, field in enumerate(line)})
-    return output
-
 
 def from_json(data):
     return json.loads(data)
+
 
 def from_csv(data, delimiter):
     fs_string = StringIO(data)
     reader = csv.DictReader(StringIO(data), delimiter=delimiter)
     output_data = [row for row in reader]
     return output_data
+
 
 def to_json(data):
     return json.dumps(data)

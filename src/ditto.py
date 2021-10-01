@@ -8,7 +8,6 @@ from utils.file import check_filetype, read_file, save_file
 ARG_DELIMITER = ","
 
 DEFAULT_CSV_DELIMITER = ";"
-DEFAULT_CSV_NEW_LINE = "\n"
 DEFAULT_CSV_QUOTECHAR = "\""
 
 
@@ -133,8 +132,6 @@ def parse_arguments():
 
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
                         default=DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(DEFAULT_CSV_DELIMITER)))
-    parser.add_argument("-n", "--newline", dest="newline", action="store",
-                        default=DEFAULT_CSV_NEW_LINE, help="CSV newline type (default: {0} )".format(repr(DEFAULT_CSV_NEW_LINE)))
     parser.add_argument("-q", "--quotechar", dest="quotechar", action="store",
                         default=DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(DEFAULT_CSV_QUOTECHAR)))
 

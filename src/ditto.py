@@ -47,7 +47,7 @@ def main():
     if input_datatype == "json":
         data = from_json(source_data)
     elif input_datatype == "csv":
-        data = from_csv(source_data, delimiter=args.delimiter)
+        data = from_csv(source_data, args.delimiter, args.quotechar)
     else:
         print("Whatever you did to get here was definitely not supported")
         return

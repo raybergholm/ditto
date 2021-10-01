@@ -10,9 +10,9 @@ def from_json(data):
     return json.loads(data)
 
 
-def from_csv(data, delimiter):
+def from_csv(data, delimiter, quotechar):
     fs_string = StringIO(data)
-    reader = csv.DictReader(StringIO(data), delimiter=delimiter)
+    reader = csv.DictReader(StringIO(data), delimiter=delimiter, quotechar=quotechar)
     output_data = [row for row in reader]
     return output_data
 

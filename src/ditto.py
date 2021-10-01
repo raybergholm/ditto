@@ -2,7 +2,7 @@
 
 import argparse
 
-from utils.converter import from_json, from_csv_file, to_json, to_csv
+from utils.converter import from_json, from_csv, to_json, to_csv
 from utils.file import check_filetype, read_file, save_file
 
 ARG_DELIMITER = ","
@@ -47,7 +47,7 @@ def main():
     if input_datatype == "json":
         data = from_json(source_data)
     elif input_datatype == "csv":
-        data = from_csv_file(data_source_path, delimiter=args.delimiter)
+        data = from_csv(source_data, delimiter=args.delimiter)
     else:
         print("Whatever you did to get here was definitely not supported")
         return

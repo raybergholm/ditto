@@ -3,6 +3,8 @@
 import json
 import csv
 
+from io import StringIO
+
 # supply a field list to filter the JSON data, otherwise it will return the whole body as-is
 def from_json_file(filepath):
     data = None
@@ -36,6 +38,11 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
 def from_json(data):
     return json.loads(data)
 
+def from_csv(data, delimiter):
+    fs_string = StringIO(data)
+    reader = csv.DictReader(StringIO(data), delimiter=delimiter)
+    output_data = [row for row in reader]
+    return output_data
 
 def to_json(data):
     return json.dumps(data)

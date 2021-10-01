@@ -1,0 +1,7 @@
+{
+  "headers": {
+    "Authorization": "Basic ADD_YOUR_CREDENTIALS_HERE"
+  },
+  "delimiter": ";",
+  "quotechar": "\""
+}

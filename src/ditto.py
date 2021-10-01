@@ -9,7 +9,7 @@ ARG_DELIMITER = ","
 
 DEFAULT_CSV_DELIMITER = ";"
 DEFAULT_CSV_NEW_LINE = "\n"
-DEFAULT_QUOTECHAR = "\""
+DEFAULT_CSV_QUOTECHAR = "\""
 
 def main():
     args = parse_arguments()
@@ -131,11 +131,11 @@ def parse_arguments():
                         default="", help="copy only these fields (only these fields will appear in the output file). Use the format FIELD1,FIELD2,FIELD3")
 
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
-                        default=DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: semicolon)")
+                        default=DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(DEFAULT_CSV_DELIMITER)))
     parser.add_argument("-n", "--newline", dest="newline", action="store",
-                        default=DEFAULT_CSV_NEW_LINE, help="newline type (default: \"\\n\")")
+                        default=DEFAULT_CSV_NEW_LINE, help="CSV newline type (default: {0} )".format(repr(DEFAULT_CSV_NEW_LINE)))
     parser.add_argument("-q", "--quotechar", dest="quotechar", action="store",
-                        default=DEFAULT_QUOTECHAR, help="CSV quotechar (default: {0} )".format(DEFAULT_QUOTECHAR))
+                        default=DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(DEFAULT_CSV_QUOTECHAR)))
 
     args = parser.parse_args()
     return args

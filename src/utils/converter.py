@@ -33,6 +33,10 @@ def from_csv_file(filepath, delimiter=";", quotechar="\"", has_header=True):
     return output
 
 
+def from_json(data):
+    return json.loads(data)
+
+
 def to_json(data):
     return json.dumps(data)
 

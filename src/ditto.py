@@ -2,7 +2,7 @@
 
 import argparse
 
-from utils.converter import from_json_file, from_csv_file, to_json, to_csv
+from utils.converter import from_json, from_csv_file, to_json, to_csv
 from utils.file import check_filetype, read_file, save_file
 
 ARG_DELIMITER = ","
@@ -38,10 +38,14 @@ def main():
             args.data_source_path.split(".")[0], output_datatype)
 
         source_data = fetch_from_file(data_source_path)
+    
+    if not source_data:
+        print("failed to get data")
+        return
 
     data = None
     if input_datatype == "json":
-        data = from_json_file(data_source_path)
+        data = from_json(source_data)
     elif input_datatype == "csv":
         data = from_csv_file(data_source_path, delimiter=args.delimiter)
     else:
@@ -82,7 +86,7 @@ def fetch_from_web(url):
 
 
 def fetch_from_file(filepath):
-    read_file(filepath)
+    return read_file(filepath)
 
 
 def include_fields(data, field_list):

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 
 from utils.converter import from_json, from_csv, to_json, to_csv
 from utils.file import check_filetype, read_file, save_file
@@ -18,7 +19,8 @@ def main():
 
     # Fetch data
     if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
-        source_data = fetch_from_web(data_source_path)
+        source_data = fetch_from_web(
+            data_source_path, args.headers, args.query_params)
 
         # initial use case: just support JSON -> CSV
         input_datatype = "json"
@@ -80,12 +82,23 @@ def main():
     print("File saved to %s" % output_filepath)
 
 
-def fetch_from_web(url):
-    # TODO: this function
-    return [{"example": "example"}]
+def fetch_from_web(url, header_string):
+    import requests
+    print("Fetching from URL {0}".format(url))
+
+    headers = json.loads(header_string)
+    response = requests.get(url, headers=headers)
+
+    if response.ok:
+        return response.text
+    else:
+        print("Failed to fetch from {0}".format(url))
+        print("Error response: {0} {1}".format(response.status_code, response.text))
+        return None
 
 
 def fetch_from_file(filepath):
+    print("Fetching from filepath {0}".format(filepath))
     return read_file(filepath)
 
 
@@ -129,6 +142,9 @@ def parse_arguments():
                         default="", help="always exclude these fields (remove these fields if they exist in the source). Use the format FIELD1,FIELD2,FIELD3")
     parser.add_argument("-o", "--only", dest="only", action="store",
                         default="", help="copy only these fields (only these fields will appear in the output file). Use the format FIELD1,FIELD2,FIELD3")
+
+    parser.add_argument("--headers", dest="headers", action="store",
+                        default=[], help="Include these headers in a HTTPS request. This argument is only used when fetching from a URL")
 
     parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
                         default=DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(DEFAULT_CSV_DELIMITER)))

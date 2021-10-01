@@ -71,7 +71,7 @@ def main():
     if output_datatype == "json":
         output_data = to_json(data)
     elif output_datatype == "csv":
-        output_data = to_csv(data, args.delimiter, args.newline)
+        output_data = to_csv(data, args.delimiter, args.quotechar)
     else:
         print("Whatever you did to get here was definitely not supported")
         return

@@ -21,7 +21,7 @@ def to_json(data):
     return json.dumps(data)
 
 
-def to_csv(data, delimiter, newline):
+def to_csv_old(data, delimiter, newline):
     header = [key for key in data[0].keys()]
     output_data = []
 
@@ -31,3 +31,15 @@ def to_csv(data, delimiter, newline):
         entry = [str(row[field]) if field in row else "" for field in header]
         output_data.append("{0}{1}".format(delimiter.join(entry), newline))
     return output_data
+
+
+def to_csv(data, delimiter, quotechar):
+    fields = [key for key in data[0].keys()]
+
+    file_stream = StringIO()
+    writer = csv.DictWriter(file_stream, fieldnames=fields, delimiter=delimiter, quotechar=quotechar, extrasaction="ignore")
+
+    writer.writeheader()
+    writer.writerows(data)
+
+    return file_stream.getvalue()

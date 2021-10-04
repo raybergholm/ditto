@@ -7,7 +7,7 @@ from utils.file import read_file
 from utils.converter import from_json, from_csv, to_json, to_csv
 from utils.filter import include_fields, exclude_fields, filter_fields
 
-class Shapeshift:
+class Shapeshifter:
     DEFAULT_HEADERS = []
     DEFAULT_CSV_DELIMITER = ";"
     DEFAULT_CSV_QUOTECHAR = "\""
@@ -22,21 +22,21 @@ class Shapeshift:
         self.output = None
         self.workarea = None
 
-        self.headers = Shapeshift.DEFAULT_HEADERS
-        self.delimiter = Shapeshift.DEFAULT_CSV_DELIMITER
-        self.quotechar = Shapeshift.DEFAULT_CSV_QUOTECHAR
+        self.headers = Shapeshifter.DEFAULT_HEADERS
+        self.delimiter = Shapeshifter.DEFAULT_CSV_DELIMITER
+        self.quotechar = Shapeshifter.DEFAULT_CSV_QUOTECHAR
 
-        if headers != Shapeshift.DEFAULT_HEADERS:
+        if headers != Shapeshifter.DEFAULT_HEADERS:
             self.headers = json.loads(headers)
         elif "headers" in config:
             self.headers = config["headers"]
 
-        if delimiter != Shapeshift.DEFAULT_CSV_DELIMITER:
+        if delimiter != Shapeshifter.DEFAULT_CSV_DELIMITER:
             self.delimiter = delimiter
         elif "delimiter" in config:
             self.delimiter = config["delimiter"]
 
-        if quotechar != Shapeshift.DEFAULT_CSV_QUOTECHAR:
+        if quotechar != Shapeshifter.DEFAULT_CSV_QUOTECHAR:
             self.quotechar = quotechar
         elif "quotechar" in config:
             self.quotechar = config["quotechar"]

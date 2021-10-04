@@ -19,7 +19,7 @@ def ditto_cli():
 
     config = load_config()
 
-    ditto = Ditto(data_source_path, config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers)
+    ditto = Ditto(config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers)
 
     if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
         input_datatype = "json"
@@ -46,7 +46,7 @@ def ditto_cli():
         output_filepath = args.output_filepath if args.output_filepath else "{0}.{1}".format(
             args.data_source_path.split(".")[0], output_datatype)
 
-    ditto.fetch()
+    ditto.fetch(data_source_path)
 
     if input_datatype == "json":
         ditto.from_json()

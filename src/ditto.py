@@ -17,7 +17,7 @@ class Ditto:
         "csv"
     ]
 
-    def __init__(self, data_source_path, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS):
+    def __init__(self, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS):
         self.source = None
         self.output = None
         self.workarea = None
@@ -25,8 +25,6 @@ class Ditto:
         self.headers = Ditto.DEFAULT_HEADERS
         self.delimiter = Ditto.DEFAULT_CSV_DELIMITER
         self.quotechar = Ditto.DEFAULT_CSV_QUOTECHAR
-
-        self.set_data_source_path(data_source_path)
 
         if headers != Ditto.DEFAULT_HEADERS:
             self.headers = headers
@@ -43,25 +41,22 @@ class Ditto:
         elif "quotechar" in config:
             self.quotechar = config["quotechar"]
 
-    def fetch(self):
-        if self.data_source_path.startswith("http://") or self.data_source_path.startswith("https://"):
+    def fetch(self, data_source_path):
+        if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
             import requests
-            print("Fetching from URL {0}".format(self.data_source_path))
+            print("Fetching from URL {0}".format(data_source_path))
 
-            response = requests.get(self.data_source_path, headers=self.headers)
+            response = requests.get(data_source_path, headers=self.headers)
 
             if response.ok:
                 self.source = response.text
             else:
-                print("Failed to fetch from {0}".format(self.data_source_path))
+                print("Failed to fetch from {0}".format(data_source_path))
                 print("Error response: {0} {1}".format(
                     response.status_code, response.text))
-                raise Exception("Failed to fetch from {0}")
+                raise Exception("Failed to fetch from {0}".format(data_source_path))
         else:
-            self.source = read_file(self.data_source_path)
-
-    def set_data_source_path(self, data_source_path):
-        self.data_source_path = data_source_path
+            self.source = read_file(data_source_path)
 
     def get_source(self):
         return self.source

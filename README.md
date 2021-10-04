@@ -30,10 +30,18 @@ Using comma delimiters:
 
 This converter works in four stages:
 
-* Fetch the data source, convert it to Python lists/dictionaries
+* Fetch the data source, convert it to Python data structures
 * Apply field filtering or data modification actions
-* Convert the data to the target datatype
-* Save the file
+* Convert the data to the target data type
+* Save to file
+
+### Parsing settings from a config file
+
+The script reads from `./config.json` to fetch settings for the `headers`, `delimiter` and `quotechar` variables. If these fields are not in the config file or if the config file fails to loads/could not be found, there are also default values as fallbacks. These fields can be overwritten by passing in command line corresponding arguments.
+
+### Fetching from the data source
+
+This script supports reading from a web URL and from a local file. To specific reading from a web URL, make sure your data source starts with `http://` or `https://`. If it starts with anything else, the script will interpret it as a local filepath. If the data source is a web URL which expects security headers, they can be defined in the config file (if you're usually fetching from the same endpoint) or passed in from a command line argument.
 
 ### Modifying the output with include, exclude and only
 

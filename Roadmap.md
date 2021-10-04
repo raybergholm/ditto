@@ -2,7 +2,7 @@
 
 ## Bigger things
 
-* Currently this requires a file source for everything, which requires a lot of needless copying of data from remote APIs. Why not support fetch directly from the API too? (This will require defining auth headers and all that web traffic stuff)
+* ~~Currently this requires a file source for everything, which requires a lot of needless copying of data from remote APIs. Why not support fetch directly from the API too? (This will require defining auth headers and all that web traffic stuff)~~ added in v3.2
 
 ## Smaller things
 

@@ -164,9 +164,9 @@ def parse_arguments():
     parser.add_argument("--headers", dest="headers", action="store",
                         default=DEFAULT_HEADERS, help="Include these headers in a HTTPS request. This argument is only used when fetching from a URL")
 
-    parser.add_argument("-d", "--delimiter", dest="delimiter", action="store",
+    parser.add_argument("--delimiter", dest="delimiter", action="store",
                         default=DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(DEFAULT_CSV_DELIMITER)))
-    parser.add_argument("-q", "--quotechar", dest="quotechar", action="store",
+    parser.add_argument("--quotechar", dest="quotechar", action="store",
                         default=DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(DEFAULT_CSV_QUOTECHAR)))
 
     args = parser.parse_args()

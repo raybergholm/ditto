@@ -5,6 +5,7 @@ import json
 
 from utils.converter import from_json, from_csv, to_json, to_csv
 from utils.file import check_filetype, read_file, save_file
+from utils.filter import include_fields, exclude_fields, filter_fields
 
 CONFIG_FILEPATH = "./config.json"
 
@@ -13,6 +14,10 @@ ARG_DELIMITER = ","
 DEFAULT_HEADERS = []
 DEFAULT_CSV_DELIMITER = ";"
 DEFAULT_CSV_QUOTECHAR = "\""
+
+
+def ditto_cli():
+    pass
 
 
 def main():
@@ -36,7 +41,7 @@ def main():
 
         # initial use case: just support JSON -> CSV
         input_datatype = "json"
-        
+
         if args.keep_datatype:
             output_datatype = input_datatype
         else:
@@ -102,10 +107,12 @@ def load_config():
     try:
         return json.loads(read_file(CONFIG_FILEPATH))
     except FileNotFoundError:
-        print("No config file found, check if {0} exists".format(CONFIG_FILEPATH))
+        print("No config file found, check if {0} exists".format(
+            CONFIG_FILEPATH))
         return {}
     except json.decoder.JSONDecodeError:
-        print("Parsing error when loading the config file, check if {0} is formatted correctly".format(CONFIG_FILEPATH))
+        print("Parsing error when loading the config file, check if {0} is formatted correctly".format(
+            CONFIG_FILEPATH))
         return {}
 
 
@@ -119,39 +126,14 @@ def fetch_from_web(url, headers):
         return response.text
     else:
         print("Failed to fetch from {0}".format(url))
-        print("Error response: {0} {1}".format(response.status_code, response.text))
+        print("Error response: {0} {1}".format(
+            response.status_code, response.text))
         return None
 
 
 def fetch_from_file(filepath):
     print("Fetching from filepath {0}".format(filepath))
     return read_file(filepath)
-
-
-def include_fields(data, field_list):
-    filtered_output = []
-    for entry in data:
-        extra_fields = {key: "" for key in field_list}
-        filtered_output.append({**extra_fields, **entry})
-    return filtered_output
-
-
-def exclude_fields(data, field_list):
-    filtered_output = []
-    for entry in data:
-        filtered_entry = {key: value for key,
-                          value in entry.items() if key not in field_list}
-        filtered_output.append(filtered_entry)
-    return filtered_output
-
-
-def filter_fields(data, field_list):
-    filtered_output = []
-    for entry in data:
-        filtered_entry = {key: value for key,
-                          value in entry.items() if key in field_list}
-        filtered_output.append(filtered_entry)
-    return filtered_output
 
 
 def parse_arguments():

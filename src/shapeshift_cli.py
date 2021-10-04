@@ -4,7 +4,7 @@ import argparse
 import json
 
 from utils.file import check_filetype, read_file, save_file
-from ditto import Ditto
+from shapeshift import Shapeshift
 
 
 CONFIG_FILEPATH = "./config.json"
@@ -12,14 +12,14 @@ CONFIG_FILEPATH = "./config.json"
 ARG_DELIMITER = ","
 
 
-def ditto_cli():
+def shapeshift_cli():
     args = parse_arguments()
 
     data_source_path = args.data_source_path
 
     config = load_config()
 
-    ditto = Ditto(config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers)
+    shapeshift = Shapeshift(config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers)
 
     if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
         input_datatype = "json"
@@ -33,7 +33,7 @@ def ditto_cli():
             "web_datasource", output_datatype)
     else:
         input_datatype = check_filetype(args.data_source_path)
-        if input_datatype not in Ditto.SUPPORTED_DATA_TYPES:
+        if input_datatype not in Shapeshift.SUPPORTED_DATA_TYPES:
             print("File extension not supported (check if it was a .json or .csv file)")
             return
 
@@ -47,29 +47,29 @@ def ditto_cli():
             args.data_source_path.split(".")[0], output_datatype)
 
     if input_datatype == "json":
-        ditto.from_json(data_source_path)
+        shapeshift.from_json(data_source_path)
     elif input_datatype == "csv":
-        ditto.from_csv(data_source_path)
+        shapeshift.from_csv(data_source_path)
     else:
         print("Whatever you did to get here was definitely not supported")
         return
 
     if len(args.include) > 0:
         include_list = args.include.split(ARG_DELIMITER)
-        ditto.include(include_list)
+        shapeshift.include(include_list)
 
     if len(args.exclude) > 0:
         exclude_list = args.exclude.split(ARG_DELIMITER)
-        ditto.exclude(exclude_list)
+        shapeshift.exclude(exclude_list)
 
     if len(args.only) > 0:
         only_list = args.only.split(ARG_DELIMITER)
-        ditto.only(only_list)
+        shapeshift.only(only_list)
     
     if output_datatype == "json":
-        output_data = ditto.to_json()
+        output_data = shapeshift.to_json()
     elif output_datatype == "csv":
-        output_data = ditto.to_csv()
+        output_data = shapeshift.to_csv()
     else:
         print("Whatever you did to get here was definitely not supported")
         return
@@ -79,7 +79,7 @@ def ditto_cli():
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
-        description="Ditto: a tiny standalone JSON/CSV converter")
+        description="Shapeshift: a tiny standalone JSON/CSV converter")
     parser.add_argument(
         "data_source_path", help="Path to the data source. Web sources start with http:// or https://, otherwise this script will try to fetch from a local file")
     parser.add_argument("-f", "--filepath", dest="output_filepath", action="store",
@@ -95,12 +95,12 @@ def parse_arguments():
                         default="", help="copy only these fields (only these fields will appear in the output file). Use the format FIELD1,FIELD2,FIELD3")
 
     parser.add_argument("--headers", dest="headers", action="store",
-                        default=Ditto.DEFAULT_HEADERS, help="Include these headers in a HTTPS request. This argument is only used when fetching from a URL")
+                        default=Shapeshift.DEFAULT_HEADERS, help="Include these headers in a HTTPS request. This argument is only used when fetching from a URL")
 
     parser.add_argument("--delimiter", dest="delimiter", action="store",
-                        default=Ditto.DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(Ditto.DEFAULT_CSV_DELIMITER)))
+                        default=Shapeshift.DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(Shapeshift.DEFAULT_CSV_DELIMITER)))
     parser.add_argument("--quotechar", dest="quotechar", action="store",
-                        default=Ditto.DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(Ditto.DEFAULT_CSV_QUOTECHAR)))
+                        default=Shapeshift.DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(Shapeshift.DEFAULT_CSV_QUOTECHAR)))
 
     args = parser.parse_args()
     return args
@@ -120,4 +120,4 @@ def load_config():
 
 
 if __name__ == "__main__":
-    ditto_cli()
+    shapeshift_cli()

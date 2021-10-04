@@ -57,13 +57,16 @@ def ditto_cli():
         return
 
     if len(args.include) > 0:
-        ditto.include(args.include)
+        include_list = args.include.split(ARG_DELIMITER)
+        ditto.include(include_list)
 
     if len(args.exclude) > 0:
-        ditto.exclude(args.exclude)
+        exclude_list = args.exclude.split(ARG_DELIMITER)
+        ditto.exclude(exclude_list)
 
     if len(args.only) > 0:
-        ditto.only(args.only)
+        only_list = args.only.split(ARG_DELIMITER)
+        ditto.only(only_list)
     
     if output_datatype == "json":
         ditto.to_json()

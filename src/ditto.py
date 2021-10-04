@@ -32,7 +32,7 @@ def main():
     # Fetch data
     if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
         source_data = fetch_from_web(
-            data_source_path, args.headers)
+            data_source_path, config["headers"])
 
         # initial use case: just support JSON -> CSV
         input_datatype = "json"
@@ -61,7 +61,7 @@ def main():
     if input_datatype == "json":
         data = from_json(source_data)
     elif input_datatype == "csv":
-        data = from_csv(source_data, args.delimiter, args.quotechar)
+        data = from_csv(source_data, config["delimiter"], config["quotechar"])
     else:
         print("Whatever you did to get here was definitely not supported")
         return
@@ -85,7 +85,7 @@ def main():
     if output_datatype == "json":
         output_data = to_json(data)
     elif output_datatype == "csv":
-        output_data = to_csv(data, args.delimiter, args.quotechar)
+        output_data = to_csv(data, config["delimiter"], config["quotechar"])
     else:
         print("Whatever you did to get here was definitely not supported")
         return

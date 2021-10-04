@@ -36,7 +36,11 @@ def main():
 
         # initial use case: just support JSON -> CSV
         input_datatype = "json"
-        output_datatype = "csv"
+        
+        if args.keep_datatype:
+            output_datatype = input_datatype
+        else:
+            output_datatype = "csv"
 
         output_filepath = args.output_filepath if args.output_filepath else "{0}.{1}".format(
             "web_datasource", output_datatype)
@@ -46,7 +50,11 @@ def main():
             print("File extension not supported (check if it was a .json or .csv file)")
             return
 
-        output_datatype = "json" if input_datatype == "csv" else "csv"
+        if args.keep_datatype:
+            output_datatype = input_datatype
+        else:
+            output_datatype = "json" if input_datatype == "csv" else "csv"
+
         # If no output filepath was supplied, use the same filepath as the input and just switch the filetype
         output_filepath = args.output_filepath if args.output_filepath else "{0}.{1}".format(
             args.data_source_path.split(".")[0], output_datatype)
@@ -153,6 +161,8 @@ def parse_arguments():
         "data_source_path", help="Path to the data source. Web sources start with http:// or https://, otherwise this script will try to fetch from a local file")
     parser.add_argument("-f", "--filepath", dest="output_filepath", action="store",
                         help="filepath to save the content (default is to use the same path and name as the input)")
+    parser.add_argument("-k", "--keep-datatype", dest="keep_datatype", action="store_true",
+                        help="Keep the same datatype. Use this to create a copy or filtered copy of the data source")
 
     parser.add_argument("-i", "--include", dest="include", action="store",
                         default="", help="always include these fields (populate as empty values if they don't exist in the source). Use the format FIELD1,FIELD2,FIELD3")

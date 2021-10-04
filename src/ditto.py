@@ -16,10 +16,6 @@ DEFAULT_CSV_DELIMITER = ";"
 DEFAULT_CSV_QUOTECHAR = "\""
 
 
-def ditto_cli():
-    pass
-
-
 def main():
     args = parse_arguments()
 
@@ -134,6 +130,111 @@ def fetch_from_web(url, headers):
 def fetch_from_file(filepath):
     print("Fetching from filepath {0}".format(filepath))
     return read_file(filepath)
+
+
+
+class Ditto:
+    ARG_DELIMITER = ","
+
+    DEFAULT_HEADERS = []
+    DEFAULT_CSV_DELIMITER = ";"
+    DEFAULT_CSV_QUOTECHAR = "\""
+
+    SUPPORTED_DATA_TYPES = [
+        "json",
+        "csv"
+    ]
+
+    def __init__(self, data_source_path, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS):
+        self.source = None
+        self.output = None
+        self.workarea = None
+
+        self.headers = DEFAULT_HEADERS
+        self.delimiter = DEFAULT_CSV_DELIMITER
+        self.quotechar = DEFAULT_CSV_QUOTECHAR
+
+        self.set_data_source_path(data_source_path)
+
+        if headers != DEFAULT_HEADERS:
+            self.headers = headers
+        elif "headers" in config:
+            self.headers = config["headers"]
+
+        if delimiter != DEFAULT_CSV_DELIMITER:
+            self.delimiter = delimiter
+        elif "delimiter" in config:
+            self.delimiter = config["delimiter"]
+
+        if quotechar != DEFAULT_CSV_QUOTECHAR:
+            self.quotechar = quotechar
+        elif "quotechar" in config:
+            self.quotechar = config["quotechar"]
+
+
+    def fetch(self):
+        if self.data_source_path.startswith("http://") or self.data_source_path.startswith("https://"):
+            import requests
+            print("Fetching from URL {0}".format(self.data_source_path))
+
+            response = requests.get(self.data_source_path, headers=self.headers)
+
+            if response.ok:
+                self.source = response.text
+            else:
+                print("Failed to fetch from {0}".format(self.data_source_path))
+                print("Error response: {0} {1}".format(
+                    response.status_code, response.text))
+                raise Exception("Failed to fetch from {0}")
+        else:
+            self.source = read_file(self.data_source_path)
+
+
+    def set_data_source_path(self, data_source_path):
+        self.data_source_path = data_source_path
+
+    def get_source(self):
+        return self.source
+
+    def get_output(self):
+        return self.output
+
+    def from_csv(self):
+        if not self.source:
+            self.source = self.fetch()
+
+        self.workarea = from_csv(self.source, self.delimiter, self.quotechar)
+        return self
+
+    def from_json(self):
+        if not self.source:
+            self.source = self.fetch()
+
+        self.workarea = from_json(self.source)
+        return self
+
+    def to_csv(self):
+        self.output = to_csv(self.workarea, self.delimiter, self.quotechar)
+        return self
+
+    def to_json(self):
+        self.output = to_json(self.workarea)
+        return self
+
+    def include(self, include_string):
+        include_list = include_string.split(ARG_DELIMITER)
+        self.workarea = include_fields(self.workarea, include_list)
+        return self
+
+    def exclude(self, exclude_string):
+        exclude_list = exclude_string.split(ARG_DELIMITER)
+        self.workarea = exclude_fields(self.workarea, exclude_list)
+        return self
+
+    def only(self, only_string):
+        filter_list = only_string.split(ARG_DELIMITER)
+        self.workarea = filter_fields(self.workarea, filter_list)
+        return self
 
 
 def parse_arguments():

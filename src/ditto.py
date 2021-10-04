@@ -66,20 +66,16 @@ def main():
         print("Whatever you did to get here was definitely not supported")
         return
 
-    include_string = args.include
-    exclude_string = args.exclude
-    filter_string = args.only
-
-    if len(include_string) > 0:
-        include_list = include_string.split(ARG_DELIMITER)
+    if len(args.include) > 0:
+        include_list = args.include.split(ARG_DELIMITER)
         data = include_fields(data, include_list)
 
-    if len(exclude_string) > 0:
-        exclude_list = exclude_string.split(ARG_DELIMITER)
+    if len(args.exclude) > 0:
+        exclude_list = args.exclude.split(ARG_DELIMITER)
         data = exclude_fields(data, exclude_list)
 
-    if len(filter_string) > 0:
-        filter_list = filter_string.split(ARG_DELIMITER)
+    if len(args.only) > 0:
+        filter_list = args.only.split(ARG_DELIMITER)
         data = filter_fields(data, filter_list)
 
     if output_datatype == "json":

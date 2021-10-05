@@ -14,6 +14,10 @@ Now, what are you looking for?
 
 [Check out the docs for the module](./docs/command_line_docs.md)
 
+## What's changed?
+
+[Check out the changelog here](./CHANGELOG.md)
+
 ## What's on the horizon for this repo?
 
 [Check out the roadmap here](./Roadmap.md)

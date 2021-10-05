@@ -56,15 +56,15 @@ def shapeshifter_cli():
 
     if len(args.include) > 0:
         include_list = args.include.split(ARG_DELIMITER)
-        shapeshifter.include(include_list)
+        shapeshifter.include(*include_list)
 
     if len(args.exclude) > 0:
         exclude_list = args.exclude.split(ARG_DELIMITER)
-        shapeshifter.exclude(exclude_list)
+        shapeshifter.exclude(*exclude_list)
 
     if len(args.only) > 0:
         only_list = args.only.split(ARG_DELIMITER)
-        shapeshifter.only(only_list)
+        shapeshifter.only(*only_list)
     
     if output_datatype == "json":
         output_data = shapeshifter.to_json()

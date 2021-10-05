@@ -76,14 +76,14 @@ class Shapeshifter:
     def to_json(self):
         return to_json(self.workarea)
 
-    def include(self, include_list):
+    def include(self, *include_list):
         self.workarea = include_fields(self.workarea, include_list)
         return self
 
-    def exclude(self, exclude_list):
+    def exclude(self, *exclude_list):
         self.workarea = exclude_fields(self.workarea, exclude_list)
         return self
 
-    def only(self, filter_list):
+    def only(self, *filter_list):
         self.workarea = filter_fields(self.workarea, filter_list)
         return self

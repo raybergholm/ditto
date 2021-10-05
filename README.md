@@ -1,30 +1,48 @@
-# Ditto: a tiny standalone Python JSON/CSV converter
+# Shapeshifter: a tiny standalone Python JSON/CSV data converter
 
-Convert JSON -> CSV or CSV -> JSON in one straightforward terminal command.
+Are you sitting between developers using JSON APIs and business analysts using Excels and CSVs? Does your job require a lot of tedious data conversion from/to JSON and CSV? Do you have to deal with JSON APIs that regurgitate half of the database on every endpoint, regardless of what you actually need?
 
-This was originally created to deal with an environment rich in both JSON and CSV data from various systems which required comparison and analysis, while also stuck with an older version of Excel that did not offer JSON parsing options.
+If the answer was yes, look no further than here. This library lets you convert JSON -> CSV or CSV -> JSON in one terminal command, or it can be embedded into another Python script as a dependency.
 
-## Quickstart Guide
-
-### How to use Ditto from the command line
+## Quickstart Guide - running Shapeshifter from the command line
 
 Getting help:
-`python ditto.py -h`
+`python shapeshifter_cli.py -h`
 
 Basic:
-`python ditto.py {SOURCE_FILEPATH}`
-The output filepth will be the same as source filepath, with .csv/.json swapped
+`python shapeshifter_cli.py ~/username/source.json`
+The output filepath will be the same as source filepath, with .csv/.json swapped. If the source is a web url, it will be web_datasource.json or web_datasource.csv.
 
 Specify the destination:
-`python ditto.py {SOURCE_FILEPATH} -o {DESTINATION_FILEPATH}`
+`python shapeshifter_cli.py ~/username/source.json -f ~/username/destination.csv`
 
 Using comma delimiters:
-`python ditto.py {SOURCE_FILEPATH} -o {DESTINATION_FILEPATH} -d ','`
+`python shapeshifter_cli.py ~/username/source.csv -f ~/username/destination.json -d ','`
+
+Using a web URL as a source:
+`python shapeshifter_cli.py https://www.example.com/rest/etc -f ~/username/destination.csv`
+
+Also include headers:
+`python shapeshifter_cli.py https://www.example.com/rest/etc -f ~/username/destination.csv -h '{"Authorization": "Basic EXAMPLE_AUTH_VALUE"}'`
+
+Keep the same data format (fetch & save as-is):
+`python shapeshifter_cli.py https://www.example.com/rest/etc -f ~/username/destination.csv --keep-datatype`
+
+Remove some fields from the output:
+`python shapeshifter_cli.py ~/username/source.json -e "firstname,lastname"`
+
+Add some fields and remove some fields:
+`python shapeshifter_cli.py ~/username/source.json -i "optionalNotes,legacyId" -e "firstname,lastname"`
+
+Return only specific fields:
+`python shapeshifter_cli.py ~/username/source.json -o "id,lastModified"`
 
 ### How to set up the quick shell function shortcut
 
-1. In shell-snippets/ditto-shell.sh, change the value of `DITTO_PATH` to the root folder where this repo was copied.
-2. Include the ditto-shell.sh in your `.bash_profile`, `.zshrc` or other equivalent file, e.g. `source ~/path-to-this-repo/shell-snippets/ditto-shell.sh`
+1. In shell-snippets/shapeshifter-shell.sh, change the value of `SHAPESHIFTER_PATH` to the root folder where this repo was copied.
+2. Include the shapeshifter-shell.sh in your `.bash_profile`, `.zshrc` or other equivalent file, e.g. `source ~/path-to-this-repo/shell-snippets/shapeshifter-shell.sh`
+
+### Using Shapeshifter as a library inside another Python script
 
 ## Documentation
 
@@ -35,9 +53,9 @@ This converter works in four stages:
 * Convert the data to the target data type
 * Save to file
 
-### Parsing settings from a config file
+### Configuration settings: the config file
 
-The script reads from `./config.json` to fetch settings for the `headers`, `delimiter` and `quotechar` variables. If these fields are not in the config file or if the config file fails to loads/could not be found, there are also default values as fallbacks. These fields can be overwritten by passing in command line corresponding arguments.
+The command line script reads from `./config.json` to fetch settings for the `headers`, `delimiter` and `quotechar` variables. If these fields are not in the config file or if the config file fails to loads/could not be found, there are also default values as fallbacks. These fields can be overwritten by passing in command line corresponding arguments.
 
 ### Fetching from the data source
 

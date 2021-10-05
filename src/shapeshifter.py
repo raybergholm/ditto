@@ -7,7 +7,7 @@ from utils.file import read_file
 from utils.converter import from_json, from_csv, to_json, to_csv
 from utils.filter import include_fields, exclude_fields, filter_fields
 
-class Ditto:
+class Shapeshifter:
     DEFAULT_HEADERS = []
     DEFAULT_CSV_DELIMITER = ";"
     DEFAULT_CSV_QUOTECHAR = "\""
@@ -19,24 +19,23 @@ class Ditto:
 
     def __init__(self, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS):
         self.source = None
-        self.output = None
         self.workarea = None
 
-        self.headers = Ditto.DEFAULT_HEADERS
-        self.delimiter = Ditto.DEFAULT_CSV_DELIMITER
-        self.quotechar = Ditto.DEFAULT_CSV_QUOTECHAR
+        self.headers = Shapeshifter.DEFAULT_HEADERS
+        self.delimiter = Shapeshifter.DEFAULT_CSV_DELIMITER
+        self.quotechar = Shapeshifter.DEFAULT_CSV_QUOTECHAR
 
-        if headers != Ditto.DEFAULT_HEADERS:
+        if headers != Shapeshifter.DEFAULT_HEADERS:
             self.headers = json.loads(headers)
         elif "headers" in config:
             self.headers = config["headers"]
 
-        if delimiter != Ditto.DEFAULT_CSV_DELIMITER:
+        if delimiter != Shapeshifter.DEFAULT_CSV_DELIMITER:
             self.delimiter = delimiter
         elif "delimiter" in config:
             self.delimiter = config["delimiter"]
 
-        if quotechar != Ditto.DEFAULT_CSV_QUOTECHAR:
+        if quotechar != Shapeshifter.DEFAULT_CSV_QUOTECHAR:
             self.quotechar = quotechar
         elif "quotechar" in config:
             self.quotechar = config["quotechar"]
@@ -61,9 +60,6 @@ class Ditto:
     def get_source(self):
         return self.source
 
-    def get_output(self):
-        return self.output
-
     def from_csv(self, data_source_path):
         self.__fetch(data_source_path)
         self.workarea = from_csv(self.source, self.delimiter, self.quotechar)
@@ -80,14 +76,14 @@ class Ditto:
     def to_json(self):
         return to_json(self.workarea)
 
-    def include(self, include_list):
+    def include(self, *include_list):
         self.workarea = include_fields(self.workarea, include_list)
         return self
 
-    def exclude(self, exclude_list):
+    def exclude(self, *exclude_list):
         self.workarea = exclude_fields(self.workarea, exclude_list)
         return self
 
-    def only(self, filter_list):
+    def only(self, *filter_list):
         self.workarea = filter_fields(self.workarea, filter_list)
         return self

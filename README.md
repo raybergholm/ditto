@@ -6,6 +6,8 @@ If the answer was yes, look no further than here. This library lets you convert 
 
 ## Quickstart Guide - running Shapeshifter from the command line
 
+Use shapeshifter_cli.py for a simple, no-nonsense command line script that fetches data from a local file or a web URL, converts to another data format, then saves the result to the filesystem.
+
 Getting help:
 `python shapeshifter_cli.py -h`
 
@@ -29,20 +31,48 @@ Keep the same data format (fetch & save as-is):
 `python shapeshifter_cli.py https://www.example.com/rest/etc -f ~/username/destination.csv --keep-datatype`
 
 Remove some fields from the output:
-`python shapeshifter_cli.py ~/username/source.json -e "firstname,lastname"`
+`python shapeshifter_cli.py ~/username/source.json -e "spam,ham"`
 
 Add some fields and remove some fields:
-`python shapeshifter_cli.py ~/username/source.json -i "optionalNotes,legacyId" -e "firstname,lastname"`
+`python shapeshifter_cli.py ~/username/source.json -i "spam,ham" -e "eggs,bacon"`
 
 Return only specific fields:
-`python shapeshifter_cli.py ~/username/source.json -o "id,lastModified"`
+`python shapeshifter_cli.py ~/username/source.json -o "spam,ham"`
 
 ### How to set up the quick shell function shortcut
 
 1. In shell-snippets/shapeshifter-shell.sh, change the value of `SHAPESHIFTER_PATH` to the root folder where this repo was copied.
 2. Include the shapeshifter-shell.sh in your `.bash_profile`, `.zshrc` or other equivalent file, e.g. `source ~/path-to-this-repo/shell-snippets/shapeshifter-shell.sh`
 
-### Using Shapeshifter as a library inside another Python script
+### Using Shapeshifter as a module inside another Python script
+
+For advanced use, import the shapeshifter.py module into your own code.
+
+Importing the module:
+`import shapeshifter.Shapeshifter`
+`from shapeshifter import Shapeshifter`
+
+Instantiating an instance:
+`instance = Shapeshifter(config=CONFIG)`
+
+Every method apart from the get methods returns the object itself so calls can be chained.
+
+Convert JSON -> CSV:
+`result = instance.from_json(DATA_SOURCE).to_csv()`
+
+Convert CSV -> JSON:
+`result = instance.from_csv(DATA_SOURCE).to_json()`
+
+Fetch JSON, add some fields and remove some fields, then back to JSON:
+`result = instance.from_json(DATA_SOURCE).include(["spam","ham"]).exclude(["eggs"]).to_json()`
+
+Do some JSON filtering and get snapshots of the data at each stage:
+
+```python
+instance.from_json(DATA_SOURCE)
+result1 = instance.include(["spam","ham"]).to_json()
+result2 = instance.exclude(["eggs"]).to_json()
+```
 
 ## Documentation
 

@@ -10,3 +10,4 @@
 
 * --include currently causes some annoying key reordering due to the use of `destination = {**extra_fields, **source}`, could be smoother to append to the end instead
 * How about being able to define a set field order or structure? Probably makes sense to use the data source as a template.
+* `include()`, `exclude()` and `only()` all require a list as a parameter, but it's nicer to use varargs

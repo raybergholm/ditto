@@ -27,7 +27,7 @@ class Ditto:
         self.quotechar = Ditto.DEFAULT_CSV_QUOTECHAR
 
         if headers != Ditto.DEFAULT_HEADERS:
-            self.headers = headers
+            self.headers = json.loads(headers)
         elif "headers" in config:
             self.headers = config["headers"]
 

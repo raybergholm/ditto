@@ -19,7 +19,6 @@ class Shapeshifter:
 
     def __init__(self, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS):
         self.source = None
-        self.output = None
         self.workarea = None
 
         self.headers = Shapeshifter.DEFAULT_HEADERS
@@ -60,9 +59,6 @@ class Shapeshifter:
 
     def get_source(self):
         return self.source
-
-    def get_output(self):
-        return self.output
 
     def from_csv(self, data_source_path):
         self.__fetch(data_source_path)

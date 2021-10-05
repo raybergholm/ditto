@@ -67,14 +67,12 @@ def ditto_cli():
         ditto.only(only_list)
     
     if output_datatype == "json":
-        ditto.to_json()
+        output_data = ditto.to_json()
     elif output_datatype == "csv":
-        ditto.to_csv()
+        output_data = ditto.to_csv()
     else:
         print("Whatever you did to get here was definitely not supported")
         return
-    
-    output_data = ditto.get_output()
 
     save_file(output_filepath, output_data)
     print("File saved to %s" % output_filepath)

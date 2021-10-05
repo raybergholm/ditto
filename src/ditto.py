@@ -75,12 +75,10 @@ class Ditto:
         return self
 
     def to_csv(self):
-        self.output = to_csv(self.workarea, self.delimiter, self.quotechar)
-        return self
+        return to_csv(self.workarea, self.delimiter, self.quotechar)
 
     def to_json(self):
-        self.output = to_json(self.workarea)
-        return self
+        return to_json(self.workarea)
 
     def include(self, include_list):
         self.workarea = include_fields(self.workarea, include_list)

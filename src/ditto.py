@@ -27,7 +27,7 @@ class Ditto:
         self.quotechar = Ditto.DEFAULT_CSV_QUOTECHAR
 
         if headers != Ditto.DEFAULT_HEADERS:
-            self.headers = headers
+            self.headers = json.loads(headers)
         elif "headers" in config:
             self.headers = config["headers"]
 
@@ -41,7 +41,7 @@ class Ditto:
         elif "quotechar" in config:
             self.quotechar = config["quotechar"]
 
-    def fetch(self, data_source_path):
+    def __fetch(self, data_source_path):
         if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
             import requests
             print("Fetching from URL {0}".format(data_source_path))
@@ -64,17 +64,13 @@ class Ditto:
     def get_output(self):
         return self.output
 
-    def from_csv(self):
-        if not self.source:
-            self.source = self.fetch()
-
+    def from_csv(self, data_source_path):
+        self.__fetch(data_source_path)
         self.workarea = from_csv(self.source, self.delimiter, self.quotechar)
         return self
 
-    def from_json(self):
-        if not self.source:
-            self.source = self.fetch()
-
+    def from_json(self, data_source_path):
+        self.__fetch(data_source_path)
         self.workarea = from_json(self.source)
         return self
 

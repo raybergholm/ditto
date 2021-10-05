@@ -46,12 +46,10 @@ def ditto_cli():
         output_filepath = args.output_filepath if args.output_filepath else "{0}.{1}".format(
             args.data_source_path.split(".")[0], output_datatype)
 
-    ditto.fetch(data_source_path)
-
     if input_datatype == "json":
-        ditto.from_json()
+        ditto.from_json(data_source_path)
     elif input_datatype == "csv":
-        ditto.from_csv()
+        ditto.from_csv(data_source_path)
     else:
         print("Whatever you did to get here was definitely not supported")
         return

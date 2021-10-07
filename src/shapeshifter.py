@@ -65,9 +65,11 @@ class Shapeshifter:
         self.workarea = from_csv(self.source, self.delimiter, self.quotechar)
         return self
 
-    def from_json(self, data_source_path):
+    def from_json(self, data_source_path, subset_path=None):
         self.__fetch(data_source_path)
         self.workarea = from_json(self.source)
+        if subset_path:
+            pass
         return self
 
     def to_csv(self):

@@ -18,6 +18,12 @@ Now, what are you looking for?
 
 [Check out the changelog here](./CHANGELOG.md)
 
+## Branching and versions?
+
+[The master branch](https://github.com/raybergholm/shapeshifter/tree/master) - the latest release
+[The development branch](https://github.com/raybergholm/shapeshifter/tree/development) - the latest version under development, should be at least semi-stable.
+[The experimental branch](https://github.com/raybergholm/shapeshifter/tree/experimental) - any experimental features, may or may not be stable. Hic sunt dracones.
+
 ## What's on the horizon for this repo?
 
 [Check out the roadmap here](./Roadmap.md)

@@ -2,11 +2,10 @@
 
 import argparse
 import json
-import operator
 
 from utils.file import read_file
 from utils.converter import from_json, from_csv, to_json, to_csv
-from utils.filter import include_fields, exclude_fields, filter_fields
+from utils.filter import include_fields, exclude_fields, filter_fields, filter_by_value
 
 class Shapeshifter:
     DEFAULT_HEADERS = []
@@ -17,15 +16,6 @@ class Shapeshifter:
         "json",
         "csv"
     ]
-
-    OPERATOR_MAPPING = {
-        "==": operator.eq,
-        "!=": operator.ne,
-        ">": operator.gt,
-        ">=": operator.ge,
-        "<": operator.lt,
-        "<=": operator.le,
-    }
 
     def __init__(self, config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS, paging=None):
         self.source = None
@@ -126,12 +116,6 @@ class Shapeshifter:
         self.workarea = filter_fields(self.workarea, filter_list)
         return self
     
-    def filter(self, field, op, value):
-        comparator = Shapeshifter.OPERATOR_MAPPING.get(op, None)
-        if not comparator == None:
-            filtered_data = []
-            for entry in self.workarea:
-                if field in entry and comparator(value, entry.get(field)):
-                    filtered_data.append(entry)
-            self.workarea = filtered_data
+    def filter(self, field, operator, value):
+        self.workarea = filter_by_value(self.workarea, field, operator, value)
         return self

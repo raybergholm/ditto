@@ -66,6 +66,10 @@ def shapeshifter_cli():
         only_list = args.only.split(ARG_DELIMITER)
         shapeshifter.only(*only_list)
     
+    if args.filter_by_value:
+        [filter_field, filter_operator, filter_value] = args.filter_by_value.split(" ")
+        shapeshifter.filter(filter_field, filter_operator, filter_value)
+
     if output_datatype == "json":
         output_data = shapeshifter.to_json()
     elif output_datatype == "csv":
@@ -101,6 +105,10 @@ def parse_arguments():
                         default=Shapeshifter.DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(Shapeshifter.DEFAULT_CSV_DELIMITER)))
     parser.add_argument("--quotechar", dest="quotechar", action="store",
                         default=Shapeshifter.DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(Shapeshifter.DEFAULT_CSV_QUOTECHAR)))
+
+    parser.add_argument("--filter", dest="filter_by_value", action="store",
+                        default="", help="filter the output based on this argument. Expects a FIELD = VALUE format")
+
 
     args = parser.parse_args()
     return args

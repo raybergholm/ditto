@@ -16,3 +16,4 @@
 
 * --include currently causes some annoying key reordering due to the use of `destination = {**extra_fields, **source}`, could be smoother to append to the end instead
 * How about being able to define a set field order or structure? Probably makes sense to use the data source as a template.
+* The paging feature is a binary on/off toggle based on whether it was specified in the constructor. Fine for a one-off call, but there's nothing stopping you using the same Shapeshifter instance to do multiple actions, so being able to change that during runtime would be nice

@@ -115,7 +115,7 @@ def parse_arguments():
     parser.add_argument("--page-iterator", dest="page_iterator", action="store",
                         default=None, help="Include these headers in a HTTPS request. This argument is only used when using the page iteration functionality")
     parser.add_argument("--page-range", dest="page_range", action="store",
-                        default=None, help="Include these headers in a HTTPS request. This argument is only used when using the page iteration functionality")
+                        default=None, help="Include these headers in a HTTPS request. Use the format MIN,MAX. This argument is only used when using the page iteration functionality")
 
 
     parser.add_argument("--delimiter", dest="delimiter", action="store",

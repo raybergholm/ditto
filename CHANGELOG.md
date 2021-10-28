@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.1
+
+* New feature: filter the output based on a field value
+* New feature: you can now make iterative paged calls to a web endpoint
+* Updated shapeshifter_cli to allow page iteration via the --page-iterator and  --page-range arguments
+* Updated shapeshifter_cli to allow filtering via the --filter argument
+* Bugfix: the `config.json` file was being located based on the location where shapeshifter_cli was being called rather than based on the script's location
+
 ## v4.0
 
 * Renamed project to Shapeshifter.

@@ -32,11 +32,17 @@ result_after_include = instance.include("spam", "ham").to_csv()
 result_after_exclude = instance.exclude("eggs").to_csv()
 ```
 
+Convert JSON->CSV and filter based on a field value
+
+```python
+result = instance.from_json(data_source).filter("meaningoflife", "==", 42).to_csv()
+```
+
 ## Documentation
 
 ### Method chaining
 
-Most methods in the Shapeshifter object returns the instance reference. This allows method calls to be chained until it hits an output call, which will return the output in the corresponding format.
+Most methods in the Shapeshifter object return the instance reference. This allows method calls to be chained until it hits an output call, which will return the output in the corresponding format.
 
 The methods which can be chained:
 
@@ -45,6 +51,7 @@ The methods which can be chained:
 * `include`
 * `exclude`
 * `only`
+* `filter`
 
 The methods which do not chain:
 
@@ -74,7 +81,7 @@ The shapeshifter instance will not try to calculate anything for you so it's up 
 
 ### Data snapshots
 
-When Shapeshifter successfully fetches data from the source, it is stored to a snapshot and subsequent calls that modify the data does not affect the snapshot. This allows you to compare your input and output if necessary. The the original snapshot can be accessed via the `get_source` method.
+When Shapeshifter successfully fetches data from the source, it is stored to a snapshot and subsequent calls that modify the data does not affect the snapshot. This allows you to compare your input and output if necessary. The original snapshot can be accessed via the `get_source` method.
 
 ### Defining config settings
 
@@ -104,4 +111,129 @@ Just like the exclude case, if your data source is unnecessarily verbose for you
 
 The `filter` method accepts field, operator and value parameters. Note that if the field does not exist in an entry, that entry will be filtered out too.
 
-This method lets you perform some basic data filtering by making calls like `filter("meaningoflife", "==", 42)`, `filter("powerlevel", ">", 9000)` or `filter("firstname", "<=", "Monty")`
+This method lets you perform some basic data filtering by making calls like:
+`filter("meaningoflife", "==", 42)`
+`filter("powerlevel", ">", 9000)`
+`filter("firstname", "<=", "Monty")`
+
+## Methods
+
+### `__init__`
+
+Method signature:
+
+`__init__(config={}, delimiter=DEFAULT_CSV_DELIMITER, quotechar=DEFAULT_CSV_QUOTECHAR, headers=DEFAULT_HEADERS, paging=None)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `from_json`
+
+Method signature:
+
+`from_json(source)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `from_csv`
+
+Method signature:
+
+`from_csv(source)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `to_json`
+
+Method signature:
+
+`to_json()` => `String`
+
+Examples:
+
+```python
+
+```
+
+### `to_csv`
+
+Method signature:
+
+`to_csv()` => `String`
+
+Examples:
+
+```python
+
+```
+
+### `get_source`
+
+Method signature:
+
+`get_source()` => `List`
+
+Examples:
+
+```python
+
+```
+
+### `include`
+
+Method signature:
+
+`include(*varargs)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `exclude`
+
+Method signature:
+
+`exclude(*varargs)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `only`
+
+Method signature:
+
+`only(*varargs)` => `self`
+
+Examples:
+
+```python
+
+```
+
+### `filter`
+
+Method signature:
+
+`filter(field, operator, value)` => `self`
+
+Examples:
+
+```python
+
+```

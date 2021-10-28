@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import json
 
 from utils.file import check_filetype, read_file, save_file
 from shapeshifter import Shapeshifter
 
 
-CONFIG_FILEPATH = "./config.json"
+CONFIG_FILENAME = "config.json"
 
 ARG_DELIMITER = ","
 
@@ -17,7 +18,8 @@ def shapeshifter_cli():
 
     data_source_path = args.data_source_path
 
-    config = load_config()
+    config_filepath = "{0}/{1}".format(os.path.dirname(os.path.abspath(__file__)), CONFIG_FILENAME)
+    config = load_config(config_filepath)
 
     paging_config = None
     if args.page_iterator and args.page_range:
@@ -129,16 +131,16 @@ def parse_arguments():
     return args
 
 
-def load_config():
+def load_config(config_filepath):
     try:
-        return json.loads(read_file(CONFIG_FILEPATH))
+        return json.loads(read_file(config_filepath))
     except FileNotFoundError:
         print("No config file found, check if {0} exists".format(
-            CONFIG_FILEPATH))
+            config_filepath))
         return {}
     except json.decoder.JSONDecodeError:
         print("Parsing error when loading the config file, check if {0} is formatted correctly".format(
-            CONFIG_FILEPATH))
+            config_filepath))
         return {}
 
 

@@ -53,11 +53,15 @@ This script works in four stages:
 
 This script supports reading from a web URL and from a local file. To specify reading from a web URL, make sure your data source starts with `http://` or `https://`. If it starts with anything else, the script will interpret it as a local filepath. If the data source is a web URL which expects security headers, they can be defined in the config file (if you're usually fetching from the same endpoint) or passed in from a command line argument.
 
+#### Fetching from a web URL with paging
+
+When reading from a web URL, some endpoints might have have a lot of data, maybe even too much for it to transmit in a single request. If it has paging implemented then use the paging feature (--page-iterator and --page-range arguments) to specify the name of the query param that corresponds to the page number, plus the min & max range. The shapeshifter_cli script will not try to calculate anything for you so it's up to you to supply valid MIN and MAX ranges.
+
 ### Defining config settings
 
 #### Using the config file
 
-The script reads from `./config.json` to fetch settings for the `headers`, `delimiter` and `quotechar` variables. If these fields are not in the config file or if the config file fails to loads/could not be found, there are also default values as fallbacks.
+The script reads from `SCRIPT_ROOT_DIR/config.json` to fetch settings for the `headers`, `delimiter` and `quotechar` variables. If these fields are not in the config file or if the config file fails to loads/could not be found, there are also default values as fallbacks.
 
 #### Using command line arguments
 
@@ -82,3 +86,11 @@ If your data source is unnecessarily verbose for your purpose, use the --exclude
 Fields defined in the --only argument will be the only fields in the output.
 
 Just like the exclude case, if your data source is unnecessarily verbose for your purpose you may want to remove some fields. There may be some more extreme cases like getting a raw dump of a 20 column table filled with stuff you have no clue about when you only need two fields. In this scenario you can use the --only argument to strip out everything else.
+
+### Filtering the output based on field values
+
+The value defined in the --filter argument will be used to filter the output.
+
+This argument is used for specific cases where the data source can be filtered, e.g. `meaningoflife==42` or `powerlevel>9000`, that is any simple criteria where a field should some value. Supported attributes: `==`, `!=`, `>`, `>=` `<`, `<=`.
+
+The shapeshifter_cli script currently supports filtering using one field/value criteria.

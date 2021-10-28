@@ -19,7 +19,16 @@ def shapeshifter_cli():
 
     config = load_config()
 
-    shapeshifter = Shapeshifter(config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers)
+    paging_config = None
+    if args.page_iterator and args.page_range:
+        [min_range, max_range] = args.page_range.split(",")
+        paging_config = {
+            "iterator": args.page_iterator,
+            "min": int(min_range),
+            "max": int(max_range)
+        }
+
+    shapeshifter = Shapeshifter(config=config, delimiter=args.delimiter, quotechar=args.quotechar, headers=args.headers, paging=paging_config)
 
     if data_source_path.startswith("http://") or data_source_path.startswith("https://"):
         input_datatype = "json"
@@ -66,6 +75,10 @@ def shapeshifter_cli():
         only_list = args.only.split(ARG_DELIMITER)
         shapeshifter.only(*only_list)
     
+    if args.filter_by_value:
+        [filter_field, filter_operator, filter_value] = args.filter_by_value.split(" ")
+        shapeshifter.filter(filter_field, filter_operator, filter_value)
+
     if output_datatype == "json":
         output_data = shapeshifter.to_json()
     elif output_datatype == "csv":
@@ -96,11 +109,21 @@ def parse_arguments():
 
     parser.add_argument("--headers", dest="headers", action="store",
                         default=Shapeshifter.DEFAULT_HEADERS, help="Include these headers in a HTTPS request. This argument is only used when fetching from a URL")
+    
+    parser.add_argument("--page-iterator", dest="page_iterator", action="store",
+                        default=None, help="Include these headers in a HTTPS request. This argument is only used when using the page iteration functionality")
+    parser.add_argument("--page-range", dest="page_range", action="store",
+                        default=None, help="Include these headers in a HTTPS request. This argument is only used when using the page iteration functionality")
+
 
     parser.add_argument("--delimiter", dest="delimiter", action="store",
                         default=Shapeshifter.DEFAULT_CSV_DELIMITER, help="CSV delimiter to use when reading (default: {0} )".format(repr(Shapeshifter.DEFAULT_CSV_DELIMITER)))
     parser.add_argument("--quotechar", dest="quotechar", action="store",
                         default=Shapeshifter.DEFAULT_CSV_QUOTECHAR, help="CSV quotechar (default: {0} )".format(repr(Shapeshifter.DEFAULT_CSV_QUOTECHAR)))
+
+    parser.add_argument("--filter", dest="filter_by_value", action="store",
+                        default="", help="filter the output based on this argument. Expects a FIELD = VALUE format")
+
 
     args = parser.parse_args()
     return args

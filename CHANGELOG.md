@@ -1,6 +1,6 @@
 # Changelog
 
-## v4.1
+## v4.1.0
 
 * New feature: filter the output based on a field value
 * New feature: you can now make iterative paged calls to a web endpoint
@@ -8,18 +8,18 @@
 * Updated shapeshifter_cli to allow filtering via the --filter argument
 * Bugfix: the `config.json` file was being located based on the location where shapeshifter_cli was being called rather than based on the script's location
 
-## v4.0
+## v4.0.0
 
 * Renamed project to Shapeshifter.
 * The include/exclude/only methods now expect variable arguments rather than a single list argument
 
-## v3.2
+## v3.1.1
 
 * Moved the data fetching step to `from_json` and `from_csv`. This means that you don't call `fetch` directly, it's been renamed to `__fetch` and will be called behind the scenes.
 * Moved the data output step to `to_json` and `to_csv`. This means that you don't need to call `get_output`, it's been removed
 * Bugfix: explicitly defined headers were being read as a string instead of being parsed as json first
 
-## v3.1
+## v3.1.0
 
 * Refactored the main library logic into a standalone module that can be imported into other scripts
 * The old command line script is now `ditto_cli.py`. `ditto.py` is now the module
@@ -41,7 +41,7 @@
 * Decoupled implicit file reading from all conversion methods, e.g. `from_json_file` becomes `to_json`. This is to support a better structure for future functionality to fetch from a URL
 * Refactor csv logic to use the built-in Python csv library in both directions. This should finally fix buggy CSV->JSON behaviour in weird fringe cases
 
-## v3.0
+## v3.0.0
 
 * Added `include`, `exclude` and `only` arguments. These replace the old `fields` argument
 * Decoupled conversion from/to data formats so that the entire process does not occur in one function, e.g. `json_to_csv` becomes `from_json_file` and `to_csv`

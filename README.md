@@ -12,7 +12,7 @@ Now, what are you looking for?
 
 ## I want a module that I can use in my own Python code
 
-[Check out the docs for the module](./docs/command_line_docs.md)
+[Check out the docs for the module](./docs/module_docs.md)
 
 ## What's changed?
 
